@@ -1,9 +1,9 @@
 <?php
 
-use App\Actions\GenerateMonthlyBillInstancesAction;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BillerController;
+use App\Http\Controllers\BillPaymentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
@@ -31,12 +31,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('bills', BillController::class)
         ->only(['store', 'update']);
+
+    Route::post('bill-pay', BillPaymentController::class)
+        ->name('bill-pay');
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-
-Route::get('test', function () {
-    $action = app(GenerateMonthlyBillInstancesAction::class);
-    $action->execute();
-});

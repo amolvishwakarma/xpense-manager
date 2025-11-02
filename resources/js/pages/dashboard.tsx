@@ -58,7 +58,10 @@ export default function Dashboard({
 
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     <div className="relative col-span-2 overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <BillInstanceTable billInstances={pendingBills} />
+                        <BillInstanceTable
+                            billInstances={pendingBills}
+                            accounts={accounts}
+                        />
                     </div>
                 </div>
 

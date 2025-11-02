@@ -1,3 +1,13 @@
+import { CreditCardIcon } from 'lucide-react';
+import { Button } from '../components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '../components/ui/dialog';
 import {
     Table,
     TableBody,
@@ -6,16 +16,24 @@ import {
     TableHeader,
     TableRow,
 } from '../components/ui/table';
+import BillPayForm from '../forms/bill-pay-form';
 import { formatDate } from '../lib/utils';
-import { BillInstance } from '../types';
+import { Account, BillInstance, PaginateData } from '../types';
 
 interface BillInstanceTableProps {
     billInstances: BillInstance[];
+    accounts: PaginateData<Account>;
 }
 
 export default function BillInstanceTable({
     billInstances,
+    accounts,
 }: BillInstanceTableProps) {
+    const accountOptions = accounts.data.map((account) => ({
+        id: account.id,
+        name: account.name,
+        balance: account.balance.toString(),
+    }));
     return (
         <Table>
             <TableHeader>
@@ -25,6 +43,7 @@ export default function BillInstanceTable({
                     <TableHead>Frequency</TableHead>
                     <TableHead>Due Date</TableHead>
                     <TableHead>Amount</TableHead>
+                    <TableHead>Action</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -39,6 +58,28 @@ export default function BillInstanceTable({
                             {formatDate(billInstance.due_date)}
                         </TableCell>
                         <TableCell>{billInstance.amount}</TableCell>
+                        <TableCell>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="default" size="sm">
+                                        <CreditCardIcon />
+                                        Pay
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Pay Bill</DialogTitle>
+                                        <DialogDescription>
+                                            Select an account and pay the bill.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <BillPayForm
+                                        pendingBill={billInstance}
+                                        accounts={accountOptions}
+                                    />
+                                </DialogContent>
+                            </Dialog>
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>
