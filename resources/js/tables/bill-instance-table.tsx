@@ -34,55 +34,78 @@ export default function BillInstanceTable({
         name: account.name,
         balance: account.balance.toString(),
     }));
-    return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>#</TableHead>
-                    <TableHead>Biller</TableHead>
-                    <TableHead>Frequency</TableHead>
-                    <TableHead>Due Date</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Action</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {billInstances.map((billInstance) => (
-                    <TableRow key={billInstance.id}>
-                        <TableCell>{billInstance.id}</TableCell>
-                        <TableCell>{billInstance.bill?.biller?.name}</TableCell>
-                        <TableCell className="capitalize">
-                            {billInstance.bill?.frequency}
-                        </TableCell>
-                        <TableCell>
-                            {formatDate(billInstance.due_date)}
-                        </TableCell>
-                        <TableCell>{billInstance.amount}</TableCell>
-                        <TableCell>
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button variant="default" size="sm">
-                                        <CreditCardIcon />
-                                        Pay
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Pay Bill</DialogTitle>
-                                        <DialogDescription>
-                                            Select an account and pay the bill.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <BillPayForm
-                                        pendingBill={billInstance}
-                                        accounts={accountOptions}
-                                    />
-                                </DialogContent>
-                            </Dialog>
-                        </TableCell>
+
+    const renderTable = () => {
+        return (
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>#</TableHead>
+                        <TableHead>Biller</TableHead>
+                        <TableHead>Frequency</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Action</TableHead>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHeader>
+                <TableBody>
+                    {billInstances.map((billInstance) => (
+                        <TableRow key={billInstance.id}>
+                            <TableCell>{billInstance.id}</TableCell>
+                            <TableCell>
+                                {billInstance.bill?.biller?.name}
+                            </TableCell>
+                            <TableCell className="capitalize">
+                                {billInstance.bill?.frequency}
+                            </TableCell>
+                            <TableCell>
+                                {formatDate(billInstance.due_date)}
+                            </TableCell>
+                            <TableCell>{billInstance.amount}</TableCell>
+                            <TableCell>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="default" size="sm">
+                                            <CreditCardIcon />
+                                            Pay
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Pay Bill</DialogTitle>
+                                            <DialogDescription>
+                                                Select an account and pay the
+                                                bill.
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <BillPayForm
+                                            pendingBill={billInstance}
+                                            accounts={accountOptions}
+                                        />
+                                    </DialogContent>
+                                </Dialog>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        );
+    };
+
+    return (
+        <>
+            <div className="flex items-center justify-center py-2 uppercase">
+                <h2 className="text-lg font-bold">Pending Bills</h2>
+            </div>
+            {billInstances.length > 0 ? (
+                renderTable()
+            ) : (
+                <div className="flex items-center justify-center py-12">
+                    <p className="text-sm text-gray-500">
+                        No pending bills found
+                    </p>
+                </div>
+            )}
+        </>
     );
 }
