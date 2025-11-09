@@ -153,3 +153,13 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface AccountDropdown {
+    id: number;
+    name: string;
+}
+
+export interface CategoryDropdown {
+    id: number;
+    name: string;
+}

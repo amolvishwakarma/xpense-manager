@@ -20,20 +20,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from '../components/ui/select';
-import { destroy, store, update } from '../routes/transactions';
+import { destroy, store, update } from '../routes/incomes';
 import { AccountDropdown, CategoryDropdown, Transaction } from '../types';
 
-interface TransactionAddFormProps {
+interface IncomeFormProps {
     accounts: AccountDropdown[];
     categories: CategoryDropdown[];
     transaction: Transaction;
 }
 
-export default function TransactionForm({
+export default function IncomeForm({
     accounts,
     categories,
     transaction,
-}: TransactionAddFormProps) {
+}: IncomeFormProps) {
     const isEdit = transaction.id !== undefined;
     const { data, setData, post, put, processing, errors, reset } = useForm({
         account_id: transaction.account_id
@@ -72,12 +72,12 @@ export default function TransactionForm({
                 <form onSubmit={handleSubmit}>
                     <FieldSet>
                         <FieldLegend>
-                            {isEdit ? 'Edit Transaction' : 'Add Transaction'}
+                            {isEdit ? 'Edit Income' : 'Add Income'}
                         </FieldLegend>
                         <FieldDescription>
                             {isEdit
-                                ? 'Edit the details of a transaction'
-                                : 'Add details about a new transaction'}
+                                ? 'Edit the details of a income'
+                                : 'Add details about a new income'}
                         </FieldDescription>
                         <FieldGroup>
                             {/* Account Selection */}
@@ -245,23 +245,28 @@ export default function TransactionForm({
 
                         {/* Submit Button */}
                         <div className="flex justify-between gap-2">
-                            <ConfirmDialog
-                                title="Delete Transaction"
-                                description="Are you sure you want to delete this transaction?"
-                                confirmButtonText="Delete"
-                                trigger={
-                                    <Button variant="destructive" type="button">
-                                        Delete
-                                    </Button>
-                                }
-                                onConfirm={handleDelete}
-                            />
+                            {isEdit && (
+                                <ConfirmDialog
+                                    title="Delete Income"
+                                    description="Are you sure you want to delete this income?"
+                                    confirmButtonText="Delete"
+                                    trigger={
+                                        <Button
+                                            variant="destructive"
+                                            type="button"
+                                        >
+                                            Delete
+                                        </Button>
+                                    }
+                                    onConfirm={handleDelete}
+                                />
+                            )}
                             <Button type="submit" disabled={processing}>
                                 {processing
                                     ? 'Saving...'
                                     : isEdit
-                                      ? 'Save Transaction'
-                                      : 'Add Transaction'}
+                                      ? 'Save Income'
+                                      : 'Add Income'}
                             </Button>
                         </div>
                     </FieldSet>

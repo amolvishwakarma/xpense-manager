@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\AddBillerAction;
+use App\Enums\TransactionTypeEnum;
 use App\Models\Bill;
 use App\Models\Biller;
 use App\Services\DropdownService;
@@ -41,7 +42,8 @@ class BillerController extends Controller
     {
         $biller = new Biller;
         $bill = new Bill;
-        $categories = $this->dropdownService->getCategories();
+        $categories = $this->dropdownService
+            ->getCategories(TransactionTypeEnum::EXPENSE);
 
         return Inertia::render('billers/create', [
             'biller' => $biller,
@@ -74,7 +76,8 @@ class BillerController extends Controller
     {
         abort_if(! $biller->is_active, 404);
         $biller->load('bills');
-        $categories = $this->dropdownService->getCategories();
+        $categories = $this->dropdownService
+            ->getCategories(TransactionTypeEnum::EXPENSE);
 
         return Inertia::render('billers/show', [
             'biller' => $biller,

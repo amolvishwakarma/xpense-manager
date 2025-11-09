@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react';
 import Heading from '../../components/heading';
-import TransactionForm from '../../forms/transaction-form';
+import IncomeForm from '../../forms/income-form';
 import AppLayout from '../../layouts/app-layout';
-import { index } from '../../routes/transactions';
+import incomeRoutes from '../../routes/incomes';
 import {
     AccountDropdown,
     BreadcrumbItem,
@@ -12,40 +12,37 @@ import {
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Transactions',
-        href: index().url,
+        title: 'Incomes',
+        href: incomeRoutes.index().url,
     },
     {
-        title: 'Add Transaction',
+        title: 'Add Income',
         href: '#',
     },
 ];
 
-interface TransactionsCreateProps {
+interface IncomesCreateProps {
     accounts: AccountDropdown[];
     categories: CategoryDropdown[];
     transaction: Transaction;
 }
 
-export default function TransactionsCreatePage({
+export default function IncomesIndexPage({
+    transaction,
     accounts,
     categories,
-    transaction,
-}: TransactionsCreateProps) {
+}: IncomesCreateProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Add Transaction" />
+            <Head title="Incomes" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <Heading
-                    title="Add Transaction"
-                    description="Add a new transaction"
-                />
+                <Heading title="Incomes" description="All my incomes" />
 
                 <div className="grid grid-cols-4">
                     <div className="col-span-3 lg:col-span-2">
                         <div className="flex flex-col gap-4">
-                            <TransactionForm
+                            <IncomeForm
                                 accounts={accounts}
                                 categories={categories}
                                 transaction={transaction}

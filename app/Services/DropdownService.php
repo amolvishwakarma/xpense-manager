@@ -15,11 +15,11 @@ class DropdownService
      *
      * @return Collection<int, Category>
      */
-    public function getCategories(): Collection
+    public function getCategories(TransactionTypeEnum $type): Collection
     {
         return Category::query()
             ->select('id', 'name')
-            ->where('type', TransactionTypeEnum::EXPENSE)
+            ->where('type', $type)
             ->get();
     }
 

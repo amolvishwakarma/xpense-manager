@@ -14,6 +14,7 @@ import { dashboard } from '@/routes';
 import { index as indexAccounts } from '@/routes/accounts';
 import biller from '@/routes/billers';
 import categories from '@/routes/categories';
+import incomes from '@/routes/incomes';
 import transactions from '@/routes/transactions';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -34,7 +35,13 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Transactions',
+        title: 'Incomes',
+        href: incomes.index().url,
+        icon: Banknote,
+        prefetch: true,
+    },
+    {
+        title: 'Expenses',
         href: transactions.index().url,
         icon: CreditCard,
         prefetch: false,

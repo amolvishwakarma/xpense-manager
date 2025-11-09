@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TransactionTypeEnum;
 use App\Models\Account;
 use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Context;
 
 class StoreTransactionRequest extends FormRequest
@@ -39,18 +41,17 @@ class StoreTransactionRequest extends FormRequest
             $data = $validator->safe()->only(['account_id', 'category_id', 'amount']);
             $account = Account::find($data['account_id']);
 
-            // TODO: check if the account belongs to the user
-            if (! $account) {
+            if (! $account || $account->user_id !== Auth::user()->id) {
                 $validator->errors()->add('account_id', 'Account not found');
-            }
-
-            if ($account->balance < $data['amount']) {
-                $validator->errors()->add('amount', 'Insufficient balance');
             }
 
             $category = Category::find($data['category_id']);
             if (! $category) {
                 $validator->errors()->add('category_id', 'Category not found');
+            }
+
+            if ($category->type === TransactionTypeEnum::EXPENSE && $account->balance < $data['amount']) {
+                $validator->errors()->add('amount', 'Insufficient balance');
             }
 
             Context::add('account', $account);

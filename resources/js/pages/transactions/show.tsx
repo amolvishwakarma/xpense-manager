@@ -3,7 +3,12 @@ import Heading from '../../components/heading';
 import TransactionForm from '../../forms/transaction-form';
 import AppLayout from '../../layouts/app-layout';
 import { index } from '../../routes/transactions';
-import { BreadcrumbItem, Transaction } from '../../types';
+import {
+    AccountDropdown,
+    BreadcrumbItem,
+    CategoryDropdown,
+    Transaction,
+} from '../../types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,16 +20,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '#',
     },
 ];
-
-export interface AccountDropdown {
-    id: number;
-    name: string;
-}
-
-export interface CategoryDropdown {
-    id: number;
-    name: string;
-}
 
 interface TransactionsShowProps {
     accounts: AccountDropdown[];

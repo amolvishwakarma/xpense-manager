@@ -26,6 +26,9 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::query()
             ->with(['account', 'category'])
+            ->whereHas('category', function ($query) {
+                $query->where('type', TransactionTypeEnum::EXPENSE);
+            })
             ->orderByDesc('date')
             ->orderByDesc('id')
             ->paginate(10);
@@ -38,7 +41,7 @@ class TransactionController extends Controller
     public function show(Transaction $transaction): Response
     {
         $accounts = $this->dropdownService->getAccounts(Auth::user());
-        $categories = $this->dropdownService->getCategories();
+        $categories = $this->dropdownService->getCategories(TransactionTypeEnum::EXPENSE);
 
         return Inertia::render('transactions/show', [
             'accounts' => $accounts,
@@ -74,7 +77,8 @@ class TransactionController extends Controller
     public function create(): Response
     {
         $accounts = $this->dropdownService->getAccounts(Auth::user());
-        $categories = $this->dropdownService->getCategories();
+        $categories = $this->dropdownService
+            ->getCategories(TransactionTypeEnum::EXPENSE);
         $transaction = new Transaction;
 
         return Inertia::render('transactions/create', [
@@ -95,7 +99,7 @@ class TransactionController extends Controller
         // create the transaction
         $transaction = $action->execute($data, $category, $account, $user);
 
-        return redirect()->route('transactions.index');
+        return redirect()->route('transactions.show', $transaction);
     }
 
     public function destroy(Transaction $transaction): RedirectResponse
