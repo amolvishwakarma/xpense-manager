@@ -10,6 +10,7 @@ test('transaction has fillable attributes', function () {
         'user_id',
         'account_id',
         'category_id',
+        'bill_instance_id',
         'amount',
         'date',
         'description',

@@ -29,7 +29,7 @@ export default function BillPayForm({
     pendingBill,
     accounts,
 }: BillPayFormProps) {
-    const { data, setData, post, put, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         account_id: '',
         bill_instance_id: pendingBill.id,
         amount: pendingBill.amount,
