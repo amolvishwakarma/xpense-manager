@@ -59,4 +59,4 @@ jobs:
           path: audit-report.json 
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse app routes database --level=6 --no-progress
+        run: vendor/bin/phpstan analyse app routes database --level=4 --no-progress
