@@ -11,6 +11,11 @@ jobs:
   zap_scan:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
     env:
       APP_ENV: testing
       APP_DEBUG: false
