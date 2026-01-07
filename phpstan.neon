@@ -1,0 +1,13 @@
+parameters:
+    level: 6
+    paths:
+        - app
+        - routes
+        - database
+    excludePaths:
+        - database/migrations
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder#'
+    bootstrapFiles:
+        - bootstrap/app.php
