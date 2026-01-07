@@ -43,5 +43,17 @@ jobs:
       - name: Run Tests
         run: php artisan test --no-coverage
 
+      - name: Composer Audit
+        run: |
+          composer audit --format=json > audit-report.json
+          composer audit --min-severity=critical
+
+      - name: Upload Audit Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: composer-audit-report
+          path: audit-report.json 
+
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse app routes database --level=6 --no-progress
