@@ -46,7 +46,10 @@ jobs:
       - name: Composer Audit
         run: |
           composer audit --format=json > audit-report.json
-          composer audit --min-severity=critical
+          if composer audit --format=json | jq -e '.advisories[] | select(.severity == "critical")' > /dev/null; then
+            echo "Critical vulnerabilities found!"
+            exit 1
+          fi
 
       - name: Upload Audit Report
         if: always()
