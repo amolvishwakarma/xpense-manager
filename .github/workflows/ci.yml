@@ -41,7 +41,7 @@ jobs:
           php artisan migrate --force
 
       - name: Run Tests
-        run: php artisan test --no-interaction
+        run: php artisan test --no-coverage
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse app routes database --level=6 --no-progress
